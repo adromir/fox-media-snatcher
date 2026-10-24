@@ -1,0 +1,12 @@
+# Project Memory
+MEMORY.md
+PROJECT_CONTEXT.md
+
+# Build outputs
+dist/
+
+# Native messaging temporary files / outputs
+*.pyc
+__pycache__/
+downloads/
+temp/

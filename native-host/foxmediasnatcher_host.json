@@ -1,0 +1,9 @@
+{
+  "name": "foxmediasnatcher_host",
+  "type": "stdio",
+  "allowed_extensions": [
+    "fox-media-snatcher@adromir.local"
+  ],
+  "description": "Fox Media Snatcher Native Messaging Companion Host for FFmpeg",
+  "path": "E:\\media-download\\native-host\\foxmediasnatcher_host.bat"
+}

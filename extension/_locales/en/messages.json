@@ -1,0 +1,110 @@
+{
+  "extensionName": {
+    "message": "Fox Media Snatcher - Media Downloader & FFmpeg Converter",
+    "description": "The title of the extension"
+  },
+  "extensionDesc": {
+    "message": "Detect and download audio, video, and HLS streams from websites with optional local FFmpeg conversion.",
+    "description": "Description of the extension"
+  },
+  "noMediaDetected": {
+    "message": "No media detected on this page yet.",
+    "description": "Empty state title in popup"
+  },
+  "noMediaHint": {
+    "message": "Start playing a video or audio file on the page to allow Fox Media Snatcher to detect the stream.",
+    "description": "Empty state instructions"
+  },
+  "download": {
+    "message": "Download",
+    "description": "Direct download button"
+  },
+  "convert": {
+    "message": "Convert with FFmpeg",
+    "description": "FFmpeg conversion button"
+  },
+  "copyUrl": {
+    "message": "Copy URL",
+    "description": "Copy media URL button"
+  },
+  "copied": {
+    "message": "Copied!",
+    "description": "URL copied notice"
+  },
+  "format": {
+    "message": "Format",
+    "description": "Format label"
+  },
+  "quality": {
+    "message": "Quality / Preset",
+    "description": "Quality preset label"
+  },
+  "filename": {
+    "message": "File Name",
+    "description": "File name label"
+  },
+  "startConversion": {
+    "message": "Start Download & Conversion",
+    "description": "Button to trigger ffmpeg"
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Cancel button"
+  },
+  "openFolder": {
+    "message": "Show in Folder",
+    "description": "Open file in explorer button"
+  },
+  "companionConnected": {
+    "message": "FFmpeg Companion Connected",
+    "description": "Companion connected badge"
+  },
+  "companionDisconnected": {
+    "message": "FFmpeg Companion Not Detected",
+    "description": "Companion disconnected badge"
+  },
+  "companionSetup": {
+    "message": "Setup Companion",
+    "description": "Setup companion link"
+  },
+  "activeTasks": {
+    "message": "Active Tasks",
+    "description": "Tab or section for active tasks"
+  },
+  "detectedMedia": {
+    "message": "Detected Media",
+    "description": "Tab or section for detected media"
+  },
+  "clearList": {
+    "message": "Clear List",
+    "description": "Clear list button"
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Settings button"
+  },
+  "statusConverting": {
+    "message": "Processing with FFmpeg...",
+    "description": "Conversion in progress"
+  },
+  "statusComplete": {
+    "message": "Completed successfully!",
+    "description": "Conversion complete"
+  },
+  "statusError": {
+    "message": "Failed: ",
+    "description": "Conversion error prefix"
+  },
+  "stream": {
+    "message": "Stream (HLS/DASH)",
+    "description": "Stream type badge"
+  },
+  "video": {
+    "message": "Video",
+    "description": "Video type badge"
+  },
+  "audio": {
+    "message": "Audio",
+    "description": "Audio type badge"
+  }
+}

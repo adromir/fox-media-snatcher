@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fox Media Snatcher</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <img src="../icons/icon-32.png" alt="Fox Media Snatcher Logo" class="brand-logo">
+        <span class="brand-name">Fox Media Snatcher</span>
+      </div>
+      <div class="header-actions">
+        <div id="companionBadge" class="companion-badge status-checking" title="Checking Companion...">
+          <span class="status-dot"></span>
+          <span id="companionText" class="status-label">FFmpeg...</span>
+        </div>
+        <button id="btnOptions" class="icon-btn" title="Settings" data-i18n-title="settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button id="tabMediaBtn" class="tab-btn active">
+        <span data-i18n="detectedMedia">Detected Media</span>
+        <span id="mediaCountBadge" class="badge">0</span>
+      </button>
+      <button id="tabTasksBtn" class="tab-btn">
+        <span data-i18n="activeTasks">Active Tasks</span>
+        <span id="taskCountBadge" class="badge">0</span>
+      </button>
+      <button id="btnClearMedia" class="clear-btn" title="Clear list" data-i18n-title="clearList">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="content-body">
+      <!-- Media List Tab View -->
+      <section id="mediaView" class="tab-view active">
+        <div id="mediaList" class="media-list"></div>
+        <div id="emptyMediaNotice" class="empty-state">
+          <div class="empty-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+            </svg>
+          </div>
+          <h3 data-i18n="noMediaDetected">No media detected on this page yet.</h3>
+          <p data-i18n="noMediaHint">Start playing a video or audio file on the page to allow MediaGrab to detect the stream.</p>
+        </div>
+      </section>
+
+      <!-- Tasks Tab View -->
+      <section id="tasksView" class="tab-view">
+        <div id="taskList" class="task-list"></div>
+        <div id="emptyTasksNotice" class="empty-state">
+          <div class="empty-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+          </div>
+          <h3>No active conversion tasks</h3>
+          <p>Tasks converted with FFmpeg will appear here with live progress.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Convert Dialog Modal -->
+    <div id="convertModal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>FFmpeg Conversion</h3>
+          <button id="btnModalClose" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label data-i18n="filename">File Name</label>
+            <input type="text" id="inputFilename" class="form-input" placeholder="media_output">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="format">Format</label>
+            <select id="selectFormat" class="form-select">
+              <optgroup label="Video Formats">
+                <option value="mp4" selected>MP4 (H.264 + AAC - Universal)</option>
+                <option value="copy_mp4">MP4 (Stream Copy - Ultra Fast Remux)</option>
+                <option value="mkv">MKV (Matroska)</option>
+                <option value="webm">WebM (VP9 + Opus)</option>
+              </optgroup>
+              <optgroup label="Audio Extraction (MP3/FLAC/AAC)">
+                <option value="mp3_320">MP3 - 320 kbps (High Quality)</option>
+                <option value="mp3_192">MP3 - 192 kbps (Standard)</option>
+                <option value="m4a">M4A / AAC (Audio Only)</option>
+                <option value="flac">FLAC (Lossless)</option>
+                <option value="opus">OPUS (Efficient Voice/Audio)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div id="qualityGroup" class="form-group">
+            <label data-i18n="quality">Quality / Preset</label>
+            <select id="selectPreset" class="form-select">
+              <option value="fast" selected>Fast (Good Balance)</option>
+              <option value="slow">High Quality (Slower)</option>
+              <option value="ultrafast">Ultra Fast (Fastest)</option>
+            </select>
+          </div>
+
+          <div id="modalCompanionWarning" class="alert-banner hidden">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-text">
+              FFmpeg Companion app is not running. Please run <code>install_host.bat</code> in the native-host directory.
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="btnModalCancel" class="btn btn-secondary" data-i18n="cancel">Cancel</button>
+          <button id="btnModalStart" class="btn btn-primary" data-i18n="startConversion">Start Download & Conversion</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Companion Guide Modal -->
+    <div id="companionModal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>FFmpeg Companion Setup</h3>
+          <button id="btnCompanionClose" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body companion-guide">
+          <p>The companion app connects Firefox to your local <strong>FFmpeg</strong> installation to convert streams (HLS/DASH) and re-encode audio/video formats directly on your PC.</p>
+          <ol class="setup-steps">
+            <li>Ensure <strong>FFmpeg</strong> is installed (detected on your system!).</li>
+            <li>Open the <code>native-host/</code> directory in the project folder.</li>
+            <li>Double-click <strong><code>install_host.bat</code></strong> to register the native messaging host in Windows.</li>
+            <li>Restart Firefox or click the <strong>Test Connection</strong> button below.</li>
+          </ol>
+          <div id="companionTestResult" class="test-result"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="btnTestCompanion" class="btn btn-secondary">Test Connection</button>
+          <button id="btnCompanionDismiss" class="btn btn-primary">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/utils.js"></script>
+  <script src="../shared/i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
